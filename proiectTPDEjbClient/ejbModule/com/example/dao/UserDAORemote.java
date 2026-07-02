@@ -1,5 +1,7 @@
 package com.example.dao;
 
+import java.util.List;
+
 import javax.ejb.Remote;
 
 import com.example.dto.ChangePasswordDTO;
@@ -14,4 +16,6 @@ public interface UserDAORemote extends GenericDAO<UserDTO> {
 	UserDTO loginUser(LoginDTO loginDTO) throws LoginException;
 
 	Boolean updatePassword(ChangePasswordDTO changePasswordDTO) throws ChangePasswordException;
+
+	List<UserDTO> getAllWaitingUsers();
 }
