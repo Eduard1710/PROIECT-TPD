@@ -1,0 +1,35 @@
+/* Resetare stil implicit al tabelului */
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+/* Stilizare antet tabel */
+thead {
+  background-color: #f2f2f2;
+}
+
+/* Stilizare celule antet */
+th {
+  padding: 12px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Stilizare rânduri pare ale tabelului */
+tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+/* Stilizare celule din interiorul tabelului */
+td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  text-align: center; /* Aliniere text pe centru */
+  vertical-align: middle; /* Aliniere verticală pe centru */
+}
+
+/* Hover pentru evidențierea rândului la trecerea cu mouse-ul */
+tbody tr:hover {
+  background-color: #e0e0e0;
+}
