@@ -3,5 +3,14 @@
 	<persistence-unit name="proiectTPDEjb">
 		<jta-data-source>jdbc/proiectResource</jta-data-source>
 		<class>model.User</class>
+		<class>model.Category</class>
+		<class>model.Courier</class>
+		<class>model.Order</class>
+		<class>model.Product</class>
+		<class>model.Receiver</class>
+		<class>model.Role</class>
+		<class>model.Shoppingcart</class>
+		<class>model.Shop</class>
+		<class>model.Status</class>
 	</persistence-unit>
 </persistence>

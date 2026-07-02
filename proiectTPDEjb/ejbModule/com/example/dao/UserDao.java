@@ -12,7 +12,6 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import com.example.dao.UserDAORemote;
 import com.example.dto.ChangePasswordDTO;
 import com.example.dto.LoginDTO;
 import com.example.dto.UserDTO;
@@ -65,17 +64,19 @@ public class UserDao implements UserDAORemote {
 
 	@Override
 	public UserDTO create(UserDTO userDTO) {
+//		System.out.print(userDTO.getRole());
 		User user = dtoToEntity.convertUser(userDTO);
+		System.out.print(user.getRole());
 		entityManager.persist(user);
 		entityManager.flush();
-		userDTO.setId(user.getIduser());
+		userDTO.setId(user.getId());
 		return userDTO;
 	}
 
 	@Override
 	public UserDTO update(UserDTO userDTO) {
 		User user = dtoToEntity.convertUser(userDTO);
-		user.setIduser(userDTO.getId());
+		user.setId(userDTO.getId());
 		user = entityManager.merge(user);
 		return userDTO;
 	}
@@ -91,8 +92,8 @@ public class UserDao implements UserDAORemote {
 	public UserDTO loginUser(LoginDTO loginDTO) throws LoginException {
 		User user = new User();
 		try {
-			user = entityManager.createNamedQuery("findUserByUsername", User.class)
-					.setParameter("username", loginDTO.getUsername()).getSingleResult();
+			user = entityManager.createNamedQuery("findUserByEmail", User.class)
+					.setParameter("email", loginDTO.getEmail()).getSingleResult();
 		} catch (NoResultException e) {
 			throw new LoginException("Wrong authentication!");
 		}
@@ -101,6 +102,7 @@ public class UserDao implements UserDAORemote {
 		}
 
 		UserDTO userDTO = entityToDTO.convertUser(user);
+		System.out.print(userDTO);
 		return userDTO;
 
 	}
@@ -128,6 +130,17 @@ public class UserDao implements UserDAORemote {
 			throw new ChangePasswordException("The username is not valid!");
 		}
 
+	}
+	
+	@Override
+	public List<UserDTO> getAllWaitingUsers(){
+		List<User> users = entityManager.createNamedQuery("getAllWaitingUsers", User.class).getResultList();
+		
+		List<UserDTO> dtoUsers = new ArrayList<>();
+		for (User user : users) {
+			dtoUsers.add(entityToDTO.convertUser(user));
+		}
+		return dtoUsers;
 	}
 
 }
