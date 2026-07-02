@@ -5,8 +5,12 @@ import java.io.Serializable;
 public class UserDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private int id;
-	private String username;
+	private String email;
 	private String password;
+	private String firstname;
+	private String lastname;
+	private RoleDTO role;
+	private boolean approved;
 
 	public UserDTO() {
 		super();
@@ -20,12 +24,12 @@ public class UserDTO implements Serializable {
 		this.id = id;
 	}
 
-	public String getUsername() {
-		return username;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public String getPassword() {
@@ -36,15 +40,58 @@ public class UserDTO implements Serializable {
 		this.password = password;
 	}
 
-	public UserDTO(String username, String password) {
+	public String getFirstname() {
+		return firstname;
+	}
+
+	public void setFirstname(String firstname) {
+		this.firstname = firstname;
+	}
+
+	public String getLastname() {
+		return lastname;
+	}
+
+	public void setLastname(String lastname) {
+		this.lastname = lastname;
+	}
+
+	public UserDTO(String email, String password, String firstname, String lastname, RoleDTO role) {
 		super();
-		this.username = username;
+		this.email = email;
 		this.password = password;
+		this.firstname = firstname;
+		this.lastname = lastname;
+		this.role = role;
+	}
+
+	public UserDTO(String email, String password) {
+		super();
+		this.email = email;
+		this.password = password;
+	}
+
+	public RoleDTO getRole() {
+		return role;
+	}
+
+	public void setRole(RoleDTO role) {
+		this.role = role;
+	}
+
+	public boolean isApproved() {
+		return approved;
+	}
+
+	public void setApproved(boolean approved) {
+		this.approved = approved;
 	}
 
 	@Override
 	public String toString() {
-		return "UserDTO [id=" + id + ", username=" + username + ", password=" + password + "]";
+		return "UserDTO [id=" + id + ", email=" + email + ", password=" + password + ", firstname=" + firstname
+				+ ", lastname=" + lastname + ", approved=" + approved
+						+ "]";
 	}
 
 }
