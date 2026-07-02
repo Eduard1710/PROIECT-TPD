@@ -47,10 +47,26 @@ public class LoginBean implements Serializable
 		
 		try {
 			userDTO = userDAORemote.loginUser(loginDTO);
+			System.out.print(userDTO);
 			facesContext.getExternalContext().getSessionMap().put("userDTO", userDTO);
-			// if userDTO is admin
-			System.out.println("admin logged");
-			return "/adminFilter/admin.xhtml?faces-redirect=true";
+			
+			switch(userDTO.getRole().getId()) {
+			case 1:
+				if(userDTO.isApproved())
+					return "/shopAdmin/shopAdmin.xhtml?faces-redirect=true";
+				else return "/index?faces-redirect=true";
+			case 2:
+				return "/customer/customer.xhtml?faces-redirect=true";
+			case 3:
+				if(userDTO.isApproved())
+					return "/courier/courier.xhtml?faces-redirect=true";
+				else return "/index?faces-redirect=true";
+			case 4:
+				return "/account/admin.xhtml?faces-redirect=true";
+			default:
+				return "/index?faces-redirect=true";
+			}
+			
 
 		} catch (LoginException e) {
 			System.out.println("Invalid username or password");
@@ -59,10 +75,14 @@ public class LoginBean implements Serializable
 		}
 
 	}
+	
+	public String redirectToCreateAccount() {
+		return "/account/register.xhtml?faces-redirect=true";
+	}
 
 	public String logout() {
-
 		FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+		
 		userDTO = null;
 
 		return "/index?faces-redirect=true";

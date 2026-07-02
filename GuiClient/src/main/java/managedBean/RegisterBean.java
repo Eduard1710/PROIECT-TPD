@@ -1,0 +1,77 @@
+package managedBean;
+
+import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
+
+import javax.enterprise.context.SessionScoped;
+import javax.faces.context.FacesContext;
+
+import com.example.dao.RoleDAORemote;
+import com.example.dao.UserDAORemote;
+import com.example.dto.RoleDTO;
+import com.example.dto.UserDTO;
+import javax.inject.Named;
+import java.io.Serializable;
+
+@Named(value ="registerBean")
+@SessionScoped
+public class RegisterBean implements Serializable
+{
+	private static final long serialVersionUID = 1L;
+
+	UserDTO registerDTO = new UserDTO();
+	
+	@EJB
+	UserDAORemote userDAORemote;
+	
+	@EJB
+	RoleDAORemote roleDAORemote;
+
+    RoleDTO selectedRole;
+    
+    @PostConstruct
+	public void initialize() {
+		selectedRole = new RoleDTO();
+	}
+    
+	public UserDTO getRegisterDTO() {
+		return registerDTO;
+	}
+
+	public void setRegisterDTO(UserDTO registerDTO) {
+		this.registerDTO = registerDTO;
+	}
+
+	public RoleDTO getSelectedRole() {
+		return selectedRole;
+	}
+
+	public void setSelectedRole(RoleDTO selectedRole) {
+		this.selectedRole = selectedRole;
+	}
+
+	public RoleDAORemote getRoleDAORemote() {
+		return roleDAORemote;
+	}
+
+	public void setRoleDAORemote(RoleDAORemote roleDAORemote) {
+		this.roleDAORemote = roleDAORemote;
+	}
+
+	public String registerUser() {
+		FacesContext facesContext = FacesContext.getCurrentInstance();
+
+		try {
+			registerDTO.setRole(roleDAORemote.findById(selectedRole.getId()));
+			registerDTO = userDAORemote.create(registerDTO);
+			
+		    return "/index?faces-redirect=true";
+			
+		} catch (Exception e) {
+			facesContext.addMessage("registerForm", new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), null));
+			return null;
+		}
+
+	}
+}
